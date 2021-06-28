@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express';
 import config from './config';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
+import AuthDirective from './directives/Auth';
 
 /**
  * Initialize application.
@@ -13,7 +14,14 @@ import resolvers from './resolvers';
 export function init(): void {
   const app = express();
 
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req, res }) => ({ req, res }),
+    schemaDirectives: {
+      auth: AuthDirective
+    }
+  });
 
   server.applyMiddleware({ app, path: config.baseUrl });
 

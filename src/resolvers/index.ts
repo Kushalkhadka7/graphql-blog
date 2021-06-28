@@ -1,3 +1,4 @@
 import Auth from './Auth';
+import Post from './Post';
 
-export default [Auth];
+export default [Auth, Post];

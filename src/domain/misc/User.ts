@@ -1,6 +1,7 @@
 interface User {
-  email: string;
+  _id?: string;
   name: string;
+  email: string;
   password: string;
 }
 
