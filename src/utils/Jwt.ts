@@ -1,4 +1,4 @@
-import { sign, decode, verify } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 class Jwt {
   private secret: string;
@@ -10,15 +10,17 @@ class Jwt {
   }
 
   public createToken(payload: any): string {
-    return sign(payload, this.secret, { expiresIn: this.duration });
+    delete payload.password;
+
+    return jwt.sign(JSON.stringify(payload), this.secret);
   }
 
   public verifyToken(token: string) {
-    verify(token, this.secret);
+    jwt.verify(token, this.secret);
   }
 
   public decodeToken(token: string) {
-    return decode(token);
+    return jwt.decode(token);
   }
 }
 
