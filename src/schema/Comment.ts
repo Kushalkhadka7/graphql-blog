@@ -4,16 +4,15 @@ import Comment from '../domain/misc/Comment';
 const CommentSchema = new Schema<Comment>(
   {
     postId: {
-      type: Number
+      type: String,
+      ref: 'post'
     },
     creator: {
-      type: Number,
+      type: String,
       required: true
     },
     likes: {
-      unique: true,
-      type: [Number],
-      required: true
+      type: [String]
     },
     description: {
       type: String

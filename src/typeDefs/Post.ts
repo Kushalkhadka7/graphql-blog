@@ -6,13 +6,14 @@ export default gql`
   }
 
   extend type Query {
-    getPosts: Post
+    getPosts: [Post!] @auth
+    getPost(postId: String!): Post @auth
   }
 
   type Post {
     likes: [String]
     creator: String
-    comments: [String]
+    comments: [Comment!]
     description: String
     recentComments: [String]
   }

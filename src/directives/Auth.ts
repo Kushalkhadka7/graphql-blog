@@ -14,16 +14,16 @@ class Auth extends SchemaDirectiveVisitor {
       const header = context.req.headers.authorization;
       const token = header?.split(' ')[1];
 
+      if (!token) {
+        throw new Error('user not authenticated');
+      }
+
       const user: any = new Jwt('hello', 1000 * 60).decodeToken(token);
 
       delete user.createdAt;
       delete user.updatedAt;
 
       context.user = user;
-
-      if (!token) {
-        throw new Error('user not authenticated');
-      }
 
       return resolve.apply(this, args);
     };

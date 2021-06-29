@@ -2,21 +2,20 @@ import * as mongoose from 'mongoose';
 
 import db from '../db';
 import IAuth from '../domain/Auth';
-import PostModel from '../domain/misc/Post';
+import CommentModel from '../domain/misc/Comment';
 import User from '../domain/misc/User';
 import IPost from '../domain/Post';
 import { RegisterArgs } from '../domain/request/Auth';
-import PostSchema from '../schema/Post';
-import UserSchema from '../schema/User';
+import CommentSchema from '../schema/Comment';
 
 /**
  * Auth model.
  */
-class Post {
-  private model: mongoose.Model<PostModel>;
+class Comment {
+  private model: mongoose.Model<CommentModel>;
 
   constructor() {
-    const model = db.model('post', PostSchema, 'post');
+    const model = db.model('comment', CommentSchema, 'comment');
 
     this.model = model;
   }
@@ -27,8 +26,8 @@ class Post {
    * @param {RegisterArgs} arg
    * @returns Promise<User>
    */
-  public async createPost(description: string, userId: string): Promise<any> {
-    const data = await this.model.create({ description, creator: userId });
+  public async createComment(description: string, userId: string, postId: String): Promise<any> {
+    const data = await this.model.create({ description, creator: userId, postId });
 
     return data;
   }
@@ -39,8 +38,9 @@ class Post {
    * @param {RegisterArgs} arg
    * @returns Promise<User>
    */
-  public async getAllPosts(userId: any): Promise<any[]> {
-    const data = await this.model.find({ creator: userId });
+  public async getPostComments(postId: any): Promise<any[]> {
+    console.log(postId);
+    const data = await this.model.find({ postId });
 
     console.log('data', data);
 
@@ -53,8 +53,8 @@ class Post {
    * @param {RegisterArgs} arg
    * @returns Promise<User>
    */
-  public async getPostById(userId: any, postId: any): Promise<any> {
-    const data = await this.model.findOne({ creator: userId, _id: postId });
+  public async getComment(commentId: any): Promise<any> {
+    const data = await this.model.findOne({ _id: commentId });
 
     console.log('data', data);
 
@@ -62,4 +62,4 @@ class Post {
   }
 }
 
-export default new Post();
+export default new Comment();

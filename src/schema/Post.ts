@@ -16,9 +16,6 @@ const PostSchema = new Schema<Post>(
     },
     recentComments: {
       type: [String]
-    },
-    comments: {
-      type: [Number]
     }
   },
   {
