@@ -1,4 +1,5 @@
 interface Comment {
+  _id?: string;
   postId: number;
   likes: number[];
   creator: number;

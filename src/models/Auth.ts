@@ -1,19 +1,20 @@
 import * as mongoose from 'mongoose';
 
 import db from '../db';
-import IAuth from '../domain/Auth';
 import User from '../domain/misc/User';
-import { RegisterArgs } from '../domain/request/Auth';
 import UserSchema from '../schema/User';
+import { IAuthModel } from '../domain/Auth';
+import { USER } from '../constants/collections';
+import { RegisterArgs } from '../domain/request/Auth';
 
 /**
  * Auth model.
  */
-class Auth implements IAuth {
+class Auth implements IAuthModel {
   private model: mongoose.Model<User>;
 
   constructor() {
-    const model = db.model('user', UserSchema, 'user');
+    const model = db.model(USER, UserSchema, USER);
 
     this.model = model;
   }

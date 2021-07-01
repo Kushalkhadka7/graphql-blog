@@ -1,40 +1,66 @@
-import IPost from '../domain/Post';
-import User from '../domain/misc/User';
-import { LoginArgs, RegisterArgs } from '../domain/request/Auth';
-import LoginResponse from '../domain/response/Login';
-import PostModel from '../models/Post';
-import CommentModel from '../models/Comment';
-import { Jwt } from '../utils/Jwt';
 import Auth from '../models/Auth';
+import PostModel from '../models/Post';
+import IPost from '../domain/misc/Post';
 import MyContext from '../domain/Context';
+import * as error from '../constants/error';
+import CommentModel from '../models/Comment';
+import { IPostService } from '../domain/Post';
+import IComment from '../domain/misc/Comment';
 
 /**
  * Post service.
  */
-class Post {
-  public async createPost(description: string, ctx: MyContext) {
+class Post implements IPostService {
+  /**
+   * Create new post.
+   *
+   * @param {MyContext} ctx
+   * @param {string} description
+   * @returns {Promise<IPost>}
+   */
+  public async createPost(ctx: MyContext, description: string): Promise<IPost> {
     const user = await Auth.findUserByEmail(ctx.user.email);
 
     if (!user) {
-      throw new Error('User not found.');
+      throw new Error(error.USER_NOT_FOUND);
     }
 
-    return PostModel.createPost(description, user._id!);
+    return PostModel.createPost(description, user?._id!);
   }
 
-  public async getAllPosts(ctx: MyContext) {
+  /**
+   * Get all posts.
+   *
+   * @param {MyContext} ctx
+   * @returns {Promise<IPost>}
+   */
+  public async getAllPosts(ctx: MyContext): Promise<IPost[]> {
     const posts = PostModel.getAllPosts(ctx.user._id);
 
     return posts;
   }
 
-  public async getPostComments(postId: String, ctx: MyContext) {
+  /**
+   * Get comments of post.
+   *
+   * @param {MyContext} ctx
+   * @param {string} postId
+   * @returns {Promise<IComment[]>}
+   */
+  public async getPostComments(ctx: MyContext, postId: string): Promise<IComment[]> {
     const comments = await CommentModel.getPostComments(postId);
 
     return comments;
   }
 
-  public async getPost(ctx: MyContext, postId: String) {
+  /**
+   * Get post by post id.
+   *
+   * @param {MyContext} ctx
+   * @param {string} postId
+   * @returns {Promise<IPost | null>}
+   */
+  public async getPost(ctx: MyContext, postId: String): Promise<IPost | null> {
     const post = await PostModel.getPostById(ctx.user._id, postId);
 
     return post;

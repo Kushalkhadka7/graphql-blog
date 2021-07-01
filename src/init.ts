@@ -1,29 +1,55 @@
+import http from 'http';
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 
-import config from './config';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import AuthDirective from './directives/Auth';
+import { CommentsLoader } from './dataloader/CommentsLoader';
 
 /**
  * Initialize application.
  *
  * @returns {void}
  */
-export function init(): void {
+export async function init(): Promise<void> {
   const app = express();
+
+  const pubSub = new PubSub();
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }) => {
+      return {
+        req,
+        res,
+        commentsLoader: CommentsLoader,
+        pubSub
+      };
+    },
+    subscriptions: {
+      path: '/sub',
+      onConnect: async (connectionParams, webSocket) => {
+        console.log('xxx');
+        console.log(connectionParams);
+      }
+    },
     schemaDirectives: {
       auth: AuthDirective
-    }
+    },
+    tracing: true
   });
 
-  server.applyMiddleware({ app, path: config.baseUrl });
+  await server.start();
 
-  app.listen(3000, () => console.log('Listening...'));
+  server.applyMiddleware({ app });
+
+  const httpServer = http.createServer(app);
+  server.installSubscriptionHandlers(httpServer);
+
+  await new Promise((resolve: any) => {
+    console.log(`listening...`);
+    return httpServer.listen(3000, resolve);
+  });
 }

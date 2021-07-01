@@ -1,62 +1,57 @@
 import * as mongoose from 'mongoose';
 
 import db from '../db';
-import IAuth from '../domain/Auth';
-import PostModel from '../domain/misc/Post';
-import User from '../domain/misc/User';
-import IPost from '../domain/Post';
-import { RegisterArgs } from '../domain/request/Auth';
 import PostSchema from '../schema/Post';
-import UserSchema from '../schema/User';
+import PostModel from '../domain/misc/Post';
+import { IPostModel } from '../domain/Post';
+import { POST } from '../constants/collections';
 
 /**
- * Auth model.
+ * Post model.
  */
-class Post {
+class Post implements IPostModel {
   private model: mongoose.Model<PostModel>;
 
   constructor() {
-    const model = db.model('post', PostSchema, 'post');
+    const model = db.model(POST, PostSchema, POST);
 
     this.model = model;
   }
 
   /**
-   * Register new user.
+   * Create new post.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} userId
+   * @param {string} description
+   * @returns Promise<PostModel>
    */
-  public async createPost(description: string, userId: string): Promise<any> {
+  public async createPost(userId: string, description: string): Promise<PostModel> {
     const data = await this.model.create({ description, creator: userId });
 
     return data;
   }
 
   /**
-   * Register new user.
+   * Get all posts.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} userId
+   * @returns Promise<PostModel[]>
    */
-  public async getAllPosts(userId: any): Promise<any[]> {
-    const data = await this.model.find({ creator: userId });
-
-    console.log('data', data);
+  public async getAllPosts(userId: string): Promise<PostModel[]> {
+    const data = await this.model.find({ creator: userId as any });
 
     return data;
   }
 
   /**
-   * Register new user.
+   * Get post by post id.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} userId
+   * @param {string} postId
+   * @returns Promise<PostModel>
    */
-  public async getPostById(userId: any, postId: any): Promise<any> {
-    const data = await this.model.findOne({ creator: userId, _id: postId });
-
-    console.log('data', data);
+  public async getPostById(userId: string, postId: any): Promise<PostModel | null> {
+    const data = await this.model.findOne({ creator: userId as any, _id: postId });
 
     return data;
   }

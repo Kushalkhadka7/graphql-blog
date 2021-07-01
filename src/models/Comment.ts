@@ -1,62 +1,70 @@
 import * as mongoose from 'mongoose';
 
 import db from '../db';
-import IAuth from '../domain/Auth';
-import CommentModel from '../domain/misc/Comment';
-import User from '../domain/misc/User';
-import IPost from '../domain/Post';
-import { RegisterArgs } from '../domain/request/Auth';
+import IComment from '../domain/misc/Comment';
 import CommentSchema from '../schema/Comment';
+import CommentModel from '../domain/misc/Comment';
+import { ICommentModel } from '../domain/Comment';
+import { COMMENT } from '../constants/collections';
 
 /**
  * Auth model.
  */
-class Comment {
+class Comment implements ICommentModel {
   private model: mongoose.Model<CommentModel>;
 
   constructor() {
-    const model = db.model('comment', CommentSchema, 'comment');
+    const model = db.model(COMMENT, CommentSchema, COMMENT);
 
     this.model = model;
   }
 
   /**
-   * Register new user.
+   * Create comment for a post.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} description
+   * @param {string} userId
+   * @param {string} postId
+   * @returns Promise<IComment>
    */
-  public async createComment(description: string, userId: string, postId: String): Promise<any> {
+  public async createComment(description: string, userId: string, postId: String): Promise<IComment> {
     const data = await this.model.create({ description, creator: userId, postId });
 
     return data;
   }
 
   /**
-   * Register new user.
+   * Get comments for specific post.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} postId
+   * @returns Promise<IComment[]>
    */
-  public async getPostComments(postId: any): Promise<any[]> {
-    console.log(postId);
-    const data = await this.model.find({ postId });
-
-    console.log('data', data);
+  public async getPostComments(postId: string): Promise<IComment[]> {
+    const data = await this.model.find({ postId: postId as any });
 
     return data;
   }
 
   /**
-   * Register new user.
+   * Get comment by comment id.
    *
-   * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   * @param {string} commentId
+   * @returns Promise<IComment | null>
    */
-  public async getComment(commentId: any): Promise<any> {
-    const data = await this.model.findOne({ _id: commentId });
+  public async getComment(commentId: string): Promise<IComment | null> {
+    const data = await this.model.findOne({ _id: commentId as any });
 
-    console.log('data', data);
+    return data;
+  }
+
+  /**
+   * Get loaded comments for data loader.
+   *
+   * @param {string[]} ids
+   * @returns Promise<IComment[]>
+   */
+  public async getLoadedComments(ids: string[]): Promise<IComment[]> {
+    const data = this.model.find({ postId: { $in: ids as any[] } });
 
     return data;
   }

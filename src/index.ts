@@ -1,4 +1,4 @@
 import { init } from './init';
 
 // Run application.
-(() => init())();
+(async () => await init())();

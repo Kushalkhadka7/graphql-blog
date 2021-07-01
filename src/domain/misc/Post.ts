@@ -1,4 +1,6 @@
+
 interface Post {
+  _id?: string;
   likes: number[];
   creator: number;
   comments: number[];

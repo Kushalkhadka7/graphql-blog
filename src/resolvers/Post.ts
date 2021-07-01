@@ -40,13 +40,7 @@ const Post = {
   },
   Post: {
     comments: async (post: any, arg: { description: string }, context: MyContext, info: any): Promise<any> => {
-      try {
-        const response = await PostService.getPostComments(post._id, context);
-
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      return context.commentsLoader.load(post._id);
     }
   }
 };

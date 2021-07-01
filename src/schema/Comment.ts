@@ -1,6 +1,10 @@
 import { Schema } from 'mongoose';
+
 import Comment from '../domain/misc/Comment';
 
+/**
+ * Comment schema.
+ */
 const CommentSchema = new Schema<Comment>(
   {
     postId: {

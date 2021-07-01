@@ -37,6 +37,11 @@ const Comment = {
       try {
         const response = await CommentService.createComment(arg.description, context, arg.postId);
 
+        // PUBLISH EVENT
+        context.pubSub.publish('NEW_COMMENT', {
+          newComment: response
+        });
+
         return response;
       } catch (error) {
         throw error;

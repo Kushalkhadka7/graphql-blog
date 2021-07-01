@@ -2,6 +2,9 @@ import { Schema } from 'mongoose';
 
 import User from '../domain/misc/User';
 
+/**
+ * User schema.
+ */
 const UserSchema = new Schema<User>(
   {
     name: {

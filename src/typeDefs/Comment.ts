@@ -1,5 +1,8 @@
 import { gql } from 'apollo-server-express';
 
+/**
+ * Comments definitions
+ */
 export default gql`
   extend type Mutation {
     createComment(description: String, postId: String!): Comment @auth

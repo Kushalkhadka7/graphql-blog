@@ -1,5 +1,8 @@
 import { gql } from 'apollo-server-express';
 
+/**
+ * Post definitions.
+ */
 export default gql`
   extend type Mutation {
     createPost(description: String): Post @auth

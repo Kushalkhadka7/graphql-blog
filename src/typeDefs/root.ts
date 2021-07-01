@@ -1,5 +1,8 @@
 import { gql } from 'apollo-server-express';
 
+/**
+ * Root definitions.
+ */
 const root = gql`
   directive @auth on FIELD_DEFINITION
 
@@ -8,6 +11,10 @@ const root = gql`
   }
 
   type Mutation {
+    _: String
+  }
+
+  type Subscription {
     _: String
   }
 `;

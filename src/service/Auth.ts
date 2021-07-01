@@ -1,14 +1,16 @@
-import IAuth from '../domain/Auth';
-import User from '../domain/misc/User';
-import { LoginArgs, RegisterArgs } from '../domain/request/Auth';
-import LoginResponse from '../domain/response/Login';
-import AuthModel from '../models/Auth';
+import config from '../config';
 import { Jwt } from '../utils/Jwt';
+import User from '../domain/misc/User';
+import AuthModel from '../models/Auth';
+import * as error from '../constants/error';
+import { IAuthService } from '../domain/Auth';
+import LoginResponse from '../domain/response/Login';
+import { LoginArgs, RegisterArgs } from '../domain/request/Auth';
 
 /**
  * Auth service.
  */
-class Auth implements IAuth {
+class Auth implements IAuthService {
   /**
    * Register user.
    *
@@ -19,7 +21,7 @@ class Auth implements IAuth {
     const user = await AuthModel.findUserByEmail(arg.email);
 
     if (user) {
-      throw new Error('User already exists.');
+      throw new Error(error.USER_ALREADY_EXISTS);
     }
 
     return AuthModel.registerUser(arg);
@@ -35,14 +37,15 @@ class Auth implements IAuth {
     const user = await AuthModel.findUserByEmail(arg.email);
 
     if (!user) {
-      throw new Error(`User doesn't exists, Please register.`);
+      throw new Error(error.USER_DOES_NOT_EXIST);
     }
 
     if (user.password !== arg.password) {
-      throw new Error("Password doesn't match.");
+      throw new Error(error.PASSWORD_DOES_NOT_MATCH);
     }
-    const accessToken = new Jwt('hello', 1000 * 60).createToken(user);
-    const refreshToken = new Jwt('hellorefresh', 1000 * 60).createToken(user);
+
+    const accessToken = new Jwt(config.accessTokenSecret, 1000 * 60).createToken(user);
+    const refreshToken = new Jwt(config.refreshTokenSecret, 1000 * 60).createToken(user);
 
     return {
       user,

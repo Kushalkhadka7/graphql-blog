@@ -3,8 +3,17 @@ import { SchemaDirectiveVisitor } from 'graphql-tools';
 
 import { Jwt } from '../utils/Jwt';
 
+/**
+ * Auth directive to validate either user is logged in or not.
+ */
 class Auth extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field: any) {
+  /**
+   * VisitFieldDefinition func , inherited from SchemaDirectiveVisitor.
+   *
+   * @param field
+   * @returns {void}
+   */
+  visitFieldDefinition(field: any): void {
     const { resolve = defaultFieldResolver } = field;
 
     field.resolve = function (...args: any[]) {
