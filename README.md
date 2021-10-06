@@ -1,10 +1,10 @@
 # TypeScript-Graphql-mongo-blog-app
 
-## Overview
+## **Overview**
 
 This is a simple app created using typescript and graphql (Apollo Server). It uses mongodb as database. User can register and login to the app and the create posts, comment on other user post or on their own post. The authentication is done using `Jwt`. One the user login `accessToken` and `refreshToken` is provides. So to access the protected routes like creating post or commenting on post, accessToken should be provided in auth headers for verification.
 
-### Prerequisites
+### **Prerequisites**
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://docs.docker.com/install/)
@@ -14,7 +14,7 @@ This is a simple app created using typescript and graphql (Apollo Server). It us
 - [ApolloServer](https://www.apollographql.com/docs/apollo-server/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-## Getting Started
+## **Getting Started**
 
 - Git clone the repository
 
@@ -32,7 +32,7 @@ This is a simple app created using typescript and graphql (Apollo Server). It us
   ```
 - App is ready to be started, Now need to setup database.
 
-### Setup mongo database using mongo atlas
+### **Setup mongo database using mongo atlas**
 
 - Go to `https://www.mongodb.com/` and create account.
 - Create a project and a database in mongo atlas (It will take a while, depending on the region.)
@@ -46,11 +46,11 @@ This is a simple app created using typescript and graphql (Apollo Server). It us
 
 - Copy the connection string and replace `MONGO_URI` value in .env file with the connection string, also update the db credentials in the connection string.
 
-### Setup mongo database using docker-compose
+### **Setup mongo database using docker-compose**
 
 [TODO]
 
-### Starting the app
+### **Starting the app**
 
 - Once the db is setup, the app can be started.
 
@@ -60,7 +60,7 @@ This is a simple app created using typescript and graphql (Apollo Server). It us
 
 - Navigate to the browser and `localhost:3000/graphql`, graphql playground is ready.
 
-## Using the app.
+## **Using the app.**
 
 - Register and Login
 
