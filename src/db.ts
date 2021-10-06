@@ -7,10 +7,10 @@ const connectionUrl = process.env.MONGO_URI || '';
 
 const connectionOptions = {
   useCreateIndex: true,
-  user: 'kushal',
+  user: 'test',
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  pass: 'kushal',
+  pass: 'test',
   dbName: 'graphqltest'
 };
 
