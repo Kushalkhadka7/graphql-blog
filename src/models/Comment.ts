@@ -25,7 +25,8 @@ class Comment implements ICommentModel {
    * @param {string} description
    * @param {string} userId
    * @param {string} postId
-   * @returns Promise<IComment>
+   *
+   * @returns {Promise<IComment>}
    */
   public async createComment(description: string, userId: string, postId: String): Promise<IComment> {
     const data = await this.model.create({ description, creator: userId, postId });
@@ -37,7 +38,8 @@ class Comment implements ICommentModel {
    * Get comments for specific post.
    *
    * @param {string} postId
-   * @returns Promise<IComment[]>
+   *
+   * @returns {Promise<IComment[]>}
    */
   public async getPostComments(postId: string): Promise<IComment[]> {
     const data = await this.model.find({ postId: postId as any });
@@ -49,7 +51,8 @@ class Comment implements ICommentModel {
    * Get comment by comment id.
    *
    * @param {string} commentId
-   * @returns Promise<IComment | null>
+   *
+   * @returns {Promise<IComment | null>}
    */
   public async getComment(commentId: string): Promise<IComment | null> {
     const data = await this.model.findOne({ _id: commentId as any });
@@ -61,7 +64,8 @@ class Comment implements ICommentModel {
    * Get loaded comments for data loader.
    *
    * @param {string[]} ids
-   * @returns Promise<IComment[]>
+   *
+   * @returns {Promise<IComment[]>}
    */
   public async getLoadedComments(ids: string[]): Promise<IComment[]> {
     const data = this.model.find({ postId: { $in: ids as any[] } });

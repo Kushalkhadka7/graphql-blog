@@ -2,7 +2,7 @@ import Auth from '../models/Auth';
 import PostModel from '../models/Post';
 import IPost from '../domain/misc/Post';
 import MyContext from '../domain/Context';
-import * as error from '../constants/error';
+import * as error from '../errors/error';
 import CommentModel from '../models/Comment';
 import { IPostService } from '../domain/Post';
 import IComment from '../domain/misc/Comment';
@@ -16,6 +16,7 @@ class Post implements IPostService {
    *
    * @param {MyContext} ctx
    * @param {string} description
+   *
    * @returns {Promise<IPost>}
    */
   public async createPost(ctx: MyContext, description: string): Promise<IPost> {
@@ -25,13 +26,14 @@ class Post implements IPostService {
       throw new Error(error.USER_NOT_FOUND);
     }
 
-    return PostModel.createPost(description, user?._id!);
+    return PostModel.createPost(user?._id!, description);
   }
 
   /**
    * Get all posts.
    *
    * @param {MyContext} ctx
+   *
    * @returns {Promise<IPost>}
    */
   public async getAllPosts(ctx: MyContext): Promise<IPost[]> {
@@ -45,6 +47,7 @@ class Post implements IPostService {
    *
    * @param {MyContext} ctx
    * @param {string} postId
+   *
    * @returns {Promise<IComment[]>}
    */
   public async getPostComments(ctx: MyContext, postId: string): Promise<IComment[]> {
@@ -58,6 +61,7 @@ class Post implements IPostService {
    *
    * @param {MyContext} ctx
    * @param {string} postId
+   *
    * @returns {Promise<IPost | null>}
    */
   public async getPost(ctx: MyContext, postId: String): Promise<IPost | null> {

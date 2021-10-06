@@ -23,7 +23,8 @@ class Post implements IPostModel {
    *
    * @param {string} userId
    * @param {string} description
-   * @returns Promise<PostModel>
+   *
+   * @returns {Promise<PostModel>}
    */
   public async createPost(userId: string, description: string): Promise<PostModel> {
     const data = await this.model.create({ description, creator: userId });
@@ -35,7 +36,8 @@ class Post implements IPostModel {
    * Get all posts.
    *
    * @param {string} userId
-   * @returns Promise<PostModel[]>
+   *
+   * @returns {Promise<PostModel[]>}
    */
   public async getAllPosts(userId: string): Promise<PostModel[]> {
     const data = await this.model.find({ creator: userId as any });
@@ -48,7 +50,8 @@ class Post implements IPostModel {
    *
    * @param {string} userId
    * @param {string} postId
-   * @returns Promise<PostModel>
+   *
+   * @returns {Promise<PostModel>}
    */
   public async getPostById(userId: string, postId: any): Promise<PostModel | null> {
     const data = await this.model.findOne({ creator: userId as any, _id: postId });

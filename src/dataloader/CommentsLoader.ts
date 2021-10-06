@@ -14,7 +14,7 @@ interface InitialValue {
  * Data loader to load comments for specific post.
  *
  * @param {string[]} keys
- * @returns Promise<Comment[]>
+ * @returns {Promise<Comment[]>}
  */
 const loadComments: BatchComments = async (keys: string[]): Promise<Comment[][]> => {
   const comments: Comment[] = await CommentService.getLoadedComments(keys);

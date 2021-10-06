@@ -13,13 +13,14 @@ import { RegisterArgs, LoginArgs } from '../domain/request/Auth';
 const Auth = {
   Mutation: {
     /**
-     * Register resolver.
+     * User register resolver.
      *
      * @param {any} parent
      * @param {RegisterArgs} arg
      * @param {any} context
      * @param {any} info
-     * @returns Promise<User>
+     *
+     * @returns {Promise<User>}
      */
     register: async (parent: any, arg: RegisterArgs, context: any, info: any): Promise<User> => {
       try {
@@ -37,7 +38,8 @@ const Auth = {
      * @param {LoginArgs} arg
      * @param {any} context
      * @param {any} info
-     * @returns Promise<LoginResponse>
+     *
+     * @returns {Promise<LoginResponse>}
      */
     login: async (parent: any, arg: LoginArgs, context: any, info: any): Promise<LoginResponse> => {
       try {

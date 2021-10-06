@@ -23,7 +23,8 @@ class Auth implements IAuthModel {
    * Register new user.
    *
    * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   *
+   * @returns {Promise<User>}
    */
   public async registerUser(arg: RegisterArgs): Promise<User> {
     const data = await this.model.create({ ...arg });
@@ -35,7 +36,8 @@ class Auth implements IAuthModel {
    * Find user by user email.
    *
    * @param {string} email
-   * @returns  Promise<User | null>
+   *
+   * @returns  {Promise<User | null>}
    */
   public async findUserByEmail(email: string): Promise<User | null> {
     const data = await this.model.findOne({ email: email });

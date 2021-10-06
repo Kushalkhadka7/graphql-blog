@@ -1,4 +1,3 @@
-
 interface Post {
   _id?: string;
   likes: number[];

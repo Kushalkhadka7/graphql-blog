@@ -20,6 +20,7 @@ class Jwt {
    * Create jwt token.
    *
    * @param {any} payload
+   *
    * @returns {string}
    */
   public createToken(payload: any): string {
@@ -32,6 +33,7 @@ class Jwt {
    * Verify token.
    *
    * @param {string} token
+   *
    * @returns {void}
    */
   public verifyToken(token: string): void {
@@ -42,6 +44,7 @@ class Jwt {
    * Decode token.
    *
    * @param {string} token
+   *
    * @returns {any}
    */
   public decodeToken(token: string): any {

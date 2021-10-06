@@ -49,7 +49,7 @@ export async function init(): Promise<void> {
   server.installSubscriptionHandlers(httpServer);
 
   await new Promise((resolve: any) => {
-    console.log(`listening...`);
+    console.log(`listening on port 3000...`);
     return httpServer.listen(3000, resolve);
   });
 }

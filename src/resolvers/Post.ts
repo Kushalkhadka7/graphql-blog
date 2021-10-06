@@ -1,7 +1,7 @@
+import Post from '../domain/misc/Post';
 import User from '../domain/misc/User';
 import MyContext from '../domain/Context';
 import PostService from '../service/Post';
-import Post from '../domain/Post';
 
 /**
  * Post resolver.
@@ -17,7 +17,7 @@ const Post = {
         throw error;
       }
     },
-    getPost: async (parent: any, arg: { postId: String }, context: MyContext, info: any): Promise<Post> => {
+    getPost: async (parent: any, arg: { postId: String }, context: MyContext, info: any): Promise<Post | null> => {
       try {
         const response = await PostService.getPost(context, arg.postId);
 
@@ -28,9 +28,9 @@ const Post = {
     }
   },
   Mutation: {
-    createPost: async (parent: any, arg: { description: string }, context: MyContext, info: any): Promise<User> => {
+    createPost: async (parent: any, arg: { description: string }, context: MyContext, info: any): Promise<Post> => {
       try {
-        const response = await PostService.createPost(arg.description, context);
+        const response = await PostService.createPost(context, arg.description);
 
         return response;
       } catch (error) {

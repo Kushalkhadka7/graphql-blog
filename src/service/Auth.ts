@@ -2,7 +2,7 @@ import config from '../config';
 import { Jwt } from '../utils/Jwt';
 import User from '../domain/misc/User';
 import AuthModel from '../models/Auth';
-import * as error from '../constants/error';
+import * as error from '../errors/error';
 import { IAuthService } from '../domain/Auth';
 import LoginResponse from '../domain/response/Login';
 import { LoginArgs, RegisterArgs } from '../domain/request/Auth';
@@ -15,7 +15,8 @@ class Auth implements IAuthService {
    * Register user.
    *
    * @param {RegisterArgs} arg
-   * @returns Promise<User>
+   *
+   * @returns {Promise<User>}
    */
   public async registerUser(arg: RegisterArgs): Promise<User> {
     const user = await AuthModel.findUserByEmail(arg.email);
@@ -31,7 +32,8 @@ class Auth implements IAuthService {
    * Login user.
    *
    * @param {LoginArgs} arg
-   * @returns Promise<LoginResponse>
+   *
+   * @returns {Promise<LoginResponse>}
    */
   public async loginUser(arg: LoginArgs): Promise<LoginResponse> {
     const user = await AuthModel.findUserByEmail(arg.email);

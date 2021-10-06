@@ -33,9 +33,9 @@ const Comment = {
       arg: { description: string; postId: string },
       context: MyContext,
       info: any
-    ): Promise<User> => {
+    ): Promise<Comment> => {
       try {
-        const response = await CommentService.createComment(arg.description, context, arg.postId);
+        const response = await CommentService.createComment(context, arg.description, arg.postId);
 
         // PUBLISH EVENT
         context.pubSub.publish('NEW_COMMENT', {
