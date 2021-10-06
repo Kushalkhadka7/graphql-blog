@@ -11,14 +11,28 @@
     "@types/express-jwt": "^6.0.1",
     "@types/jsonwebtoken": "^8.5.2",
     "eslint": "^7.29.0",
-    "prettier": "^2.3.1",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^11.2.0"
   },
   "scripts": {
-    "start": "nodemon",
-    "prettify": "prettier --write **/*.{ts,js,json,yml,md}"
+    "tsc": "tsc",
+    "tsc:watch": "tsc -w",
+    "start:dev": "nodemon",
+    "clean": "rimraf build",
+    "precommit": "lint-staged",
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettify": "prettier --write **/*.{ts,js,json,yml,md}",
+    "build": "yarn clean && yarn tsc --project tsconfig.json"
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^6.11.0",
+    "prettier": "^2.4.1",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.12",
     "@types/graphql": "^14.5.0",
@@ -33,10 +47,28 @@
     "express-jwt": "^6.0.0",
     "graphql": "^15.5.1",
     "joi": "^17.4.0",
+    "rimraf": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.15",
     "nodemon": "^2.0.7",
     "ts-node": "^10.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint .",
+      "eslint . --fix",
+      "prettier . --write",
+      "yarn prettify"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "engines": {
+    "node": ">= 10.16.0",
+    "yarn": ">= 1.16.0"
   }
 }
